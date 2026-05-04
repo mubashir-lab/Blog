@@ -22,33 +22,29 @@
                 </div>
                 <div class="col-4 pt-1">
                     <form action="{% url 'search' %}" method="GET">
-                        <div class="card">
-                <div class="card-header">Search</div>
-                <div class="card-body ">
-                    <div class="input-group">
-                        <input 
-                            class="form-control"
-                            type="text"
-                            placeholder="Enter search term..."
-                            name="keyword"
-                            aria-label="Enter search term..."
-                            aria-describedby="button-search"
-                            value="{{keyword}}"
-                        >
+                        <div class="card-body ">
+                            <div class="input-group">
+                                <input class="form-control" type="text" placeholder="Enter search term..."
+                                    name="keyword" aria-label="Enter search term..." aria-describedby="button-search"
+                                    value="{{keyword}}">
+                                <button class="btn btn-warning mx-3" id="button-search" type="submit">
+                                    Go
+                                </button>
+                            </div>
 
-                        <button class="btn btn-warning mx-3" id="button-search" type="submit">
-                            Go
-                        </button>
-                    </div>
-                </div>
-            </div>
+                        </div>
                     </form>
                 </div>
-                
+
+                {% if not user.is_authenticated %}
                 <div class="col-4 d-flex justify-content-end align-items-center">
-                    <a class="btn btn-sm btn-warning" href="#">Login</a> &nbsp;
-                    <a class="btn btn-sm btn-outline-secondary" href="#">Register</a>
+                    <a class="btn btn-sm btn-warning" href="{% url 'login' %}">Login</a> &nbsp;
+                    <a class="btn btn-sm btn-outline-secondary" href="{% url 'register' %}">Register</a>
                 </div>
+                {% else %}
+                you have login as {{user}}
+                <span><a href="{% url 'logout' %}">Logout</a></span>
+                {% endif %}
             </div>
         </header>
 
