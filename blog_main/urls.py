@@ -29,10 +29,11 @@ urlpatterns = [
     path("blogs/<slug:slug>/",blogsview.blogs , name="blogs"),
     path('register/',views.register,name='register'),
     path('login/',views.login,name='login'),
-    path('logout/',views.logout,name='logout')
-
+    path('logout/',views.logout,name='logout'),
+    #dashbords
+    path('dashbord/',include('dashbords.urls')),
+    
 ]+ static(settings.MEDIA_URL , document_root = settings.MEDIA_ROOT)
-
 
 # djadmin
 # 123
