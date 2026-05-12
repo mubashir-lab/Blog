@@ -4,11 +4,11 @@
 
 <div class="container mt-5">
     <div class="row">
-        
+
         <!-- Blog Post -->
         <div class="col-lg-8">
             <article>
-                
+
                 <!-- Header -->
                 <header class="mb-4">
                     <h1 class="fw-bolder mb-1">
@@ -19,24 +19,66 @@
                         Posted on {{single_blog.created_at | date}} by {{single_blog.author}}
                     </div>
 
-                    <a class="badge bg-warning text-decoration-none text-light" href="{% url 'posts_by_category' single_blog.id %}">
+                    <a class="badge bg-warning text-decoration-none text-light"
+                        href="{% url 'posts_by_category' single_blog.id %}">
                         {{single_blog.category}}
                     </a>
+
+
                 </header>
 
                 <!-- Featured Image -->
                 <figure class="mb-4">
-                    <img 
-                        class="img-fluid rounded"
-                        src="{{single_blog.featured_image.url}}"
-                        alt="{{single_blog.title}}"
-                    />
+                    <img class="img-fluid rounded" src="{{single_blog.featured_image.url}}"
+                        alt="{{single_blog.title}}" />
                 </figure>
 
                 <!-- Content -->
                 <section class="mb-5">
                     <p class="fs-5 mb-4">{{single_blog.short_description}} </p>
                     <p class="fs-5 mb-4">{{single_blog.blog_body}} </p>
+                    <h4>Comments ({{comments_count}})</h4>
+
+                    {% if comments %}
+
+                    {% for comment in comments %}
+
+                    <div class="card mt-2">
+                        <div class="card-body">
+
+                            <p class="card-text mb-0">
+                                {{ comment }}
+                            </p>
+
+                            <span>
+                                <small>By {{ comment.user }}</small>
+                                <small>| {{ comment.created_at | timesince}} ago</small>
+                            </span>
+
+                        </div>
+                    </div>
+
+                    {% endfor %}
+
+                    {% else %}
+
+                    <p>No comment</p>
+
+                    {% endif %}
+                    <br>
+                    {% if user.is_authenticated %}
+                    <div class="form_group">
+                        <form action="" method="POST">
+                            {% csrf_token %}
+                            <div class="form_group">
+                                <textarea name="comment" id="" class="form-control" placeholder="Write your comment"></textarea>
+                                <input type="submit" value="submit" class="btn btn-primary mt-2">
+                            </div>
+                        </form>
+                    </div>
+                    {% else %}
+                    please <span><a href="{% url 'login' %}">Login</a></span> to comment
+                    {% endif %}
                 </section>
 
             </article>
@@ -51,13 +93,8 @@
 
                 <div class="card-body">
                     <div class="input-group">
-                        <input 
-                            class="form-control"
-                            type="text"
-                            placeholder="Enter search term..."
-                            aria-label="Enter search term..."
-                            aria-describedby="button-search"
-                        >
+                        <input class="form-control" type="text" placeholder="Enter search term..."
+                            aria-label="Enter search term..." aria-describedby="button-search">
 
                         <button class="btn btn-primary" id="button-search" type="button">
                             Go
@@ -86,16 +123,16 @@
             </div>
 
             <!-- Follow Us Widget -->
- {% if social_links %}
-          <div class="card mb-4 p-3">
-            <h4 class="font-italic">Follow Us</h4>
-            <ol class="list-unstyled">
-              {% for i in social_links %}
-              <li><a href="{{i.link}}" target="_blank">{{i.platform}}</a></li>
-              {% endfor %}
-            </ol>
-          </div>
-          {% endif %}
+            {% if social_links %}
+            <div class="card mb-4 p-3">
+                <h4 class="font-italic">Follow Us</h4>
+                <ol class="list-unstyled">
+                    {% for i in social_links %}
+                    <li><a href="{{i.link}}" target="_blank">{{i.platform}}</a></li>
+                    {% endfor %}
+                </ol>
+            </div>
+            {% endif %}
         </div>
     </div>
 </div>
